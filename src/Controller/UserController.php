@@ -38,7 +38,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw new UserNotFoundException('User not found');
+            return $this->json(['message' => 'Access denied .'], Response::HTTP_NOT_FOUND);
         }
 
         $currencyBalances = $this->userRepository->getUserBalances($user);
@@ -82,7 +82,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw new UserNotFoundException('User not found');
+            return $this->json(['message' => 'Access denied .'], Response::HTTP_NOT_FOUND);
         }
 
         $data = json_decode($request->getContent(), true);
