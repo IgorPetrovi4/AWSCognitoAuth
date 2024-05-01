@@ -26,22 +26,22 @@ EOF
 
 #### Install the project
 ```bash
-docker compose -f docker-compose-local.yaml --env-file ./.env.local build --no-cache              # Build containers from images
+docker compose -f docker-compose-local.yaml --env-file ./.env.local build --no-cache
 ```
 ```bash
-docker compose -f docker-compose-local.yaml --env-file ./.env.local up -d                         # Run containers       
+docker compose -f docker-compose-local.yaml --env-file ./.env.local up -d
 ```              
 ```bash
-docker exec -it testcrudaws-php-1 composer install --optimize-autoloader                             # Install dependencies
+docker exec -it testproject-php-1 composer install --optimize-autoloader
 ```
 ```bash
-docker exec -it testcrudaws-php-1 php bin/console doctrine:database:create --if-not-exists           # Create database
+docker exec -it testproject-php-1 php bin/console doctrine:database:create --if-not-exists
 ```
 ```bash
-docker exec -it testcrudaws-php-1 php bin/console doctrine:migrations:migrate -n                     # Run migrations
+docker exec -it testproject-php-1 php bin/console doctrine:migrations:migrate -n
 ```
 ```bash
-docker exec -it testcrudaws-php-1 php bin/console doctrine:fixtures:load -n                           # Load fixtures
+docker exec -it testproject-php-1 php bin/console doctrine:fixtures:load -n
 ```
 
 #### Open in browser
