@@ -6,6 +6,7 @@ use App\Repository\BalanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 
 #[ORM\Entity(repositoryClass: BalanceRepository::class)]
 class Balance
@@ -20,19 +21,26 @@ class Balance
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Currency should not be blank.")]
-    #[Assert\Length(
-        max: 255,
-        maxMessage: "Currency cannot be longer than {{ limit }} characters"
+    #[AppAssert\Enum(
+        [
+            'values' => ['USDT', 'Gold'],
+            'message' => "Invalid currency. Allowed values are 'USDT', 'Gold'"
+        ]
     )]
     private ?string $currency = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 18, scale: 3)]
     #[Assert\NotBlank(message: "Amount should not be blank.")]
-    #[Assert\Regex(
-        pattern: "/^\d+(\.\d{1,3})?$/",
-        message: "Amount should be a number with up to 3 decimal places."
+    #[AppAssert\DecimalPrecision(
+        [
+            'message' => "Amount should be a number with up to 3 decimal places.",
+            'invalidMessage' => "Amount should be a valid number.",
+            'maxMessage' => "Amount should not be greater than 999999999999999.999.",
+            'max' => 999999999999999.999
+        ]
     )]
     private ?string $amount = null;
+
 
     public function getId(): ?int
     {
